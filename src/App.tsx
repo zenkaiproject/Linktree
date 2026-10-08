@@ -41,9 +41,25 @@ interface LinkCardProps {
   isDarkMode: boolean;
 }
 
-const LinkCard = ({ link, isDarkMode }: LinkCardProps) => {
+export const LinkLogo = ({ link, size = 'w-12 h-12' }: { link: LinkItem; size?: string }) => {
   const Icon = ICON_MAP[link.icon] || ICON_MAP.ExternalLink;
-  
+
+  if (link.logoUrl) {
+    return (
+      <div className={`flex items-center justify-center ${size} rounded-xl overflow-hidden bg-white/10 shadow-lg shrink-0`}>
+        <img src={link.logoUrl} alt="" className="w-full h-full object-cover" />
+      </div>
+    );
+  }
+
+  return (
+    <div className={`flex items-center justify-center ${size} rounded-xl ${link.color || 'bg-zinc-500'} text-white shadow-lg shrink-0`}>
+      <Icon size={24} />
+    </div>
+  );
+};
+
+const LinkCard = ({ link, isDarkMode }: LinkCardProps) => {
   return (
     <motion.a
       href={link.url}
@@ -58,8 +74,8 @@ const LinkCard = ({ link, isDarkMode }: LinkCardProps) => {
           : 'bg-white hover:bg-zinc-50 border border-zinc-200 shadow-sm hover:shadow-md'
       }`}
     >
-      <div className={`flex items-center justify-center w-12 h-12 rounded-xl ${link.color || 'bg-zinc-500'} text-white mr-4 shadow-lg group-hover:rotate-6 transition-transform`}>
-        <Icon size={24} />
+      <div className="mr-4 group-hover:rotate-6 transition-transform">
+        <LinkLogo link={link} />
       </div>
       <div className="flex-1 text-left">
         <h3 className={`font-semibold text-lg ${isDarkMode ? 'text-white' : 'text-zinc-900'}`}>{link.title}</h3>
@@ -71,7 +87,7 @@ const LinkCard = ({ link, isDarkMode }: LinkCardProps) => {
   );
 };
 
-const GalaxyBackground = () => {
+export const GalaxyBackground = () => {
   return (
     <div className="fixed inset-0 z-0 overflow-hidden bg-[#020617]">
       {/* Stars */}
@@ -122,7 +138,14 @@ const GalaxyBackground = () => {
 };
 
 export default function App() {
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [links, setLinks] = useState<LinkItem[] | null>(null);
+
+  useEffect(() => {
+    fetch('/api/links')
+      .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
+      .then(setLinks)
+      .catch(() => setLinks(DEFAULT_LINKS));
+  }, []);
 
   return (
     <div className="h-screen w-full flex flex-col relative overflow-hidden">
@@ -234,15 +257,28 @@ export default function App() {
           </motion.div>
 
           {/* Links List */}
-          <div className="w-full space-y-4">
-            {DEFAULT_LINKS.map((link) => (
-              <LinkCard 
-                key={link.id} 
-                link={link} 
-                isDarkMode={true} 
-              />
-            ))}
-          </div>
+          {links ? (
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={containerVariants}
+              className="w-full space-y-4"
+            >
+              {links.map((link) => (
+                <LinkCard 
+                  key={link.id} 
+                  link={link} 
+                  isDarkMode={true} 
+                />
+              ))}
+            </motion.div>
+          ) : (
+            <div className="w-full space-y-4">
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="h-20 w-full rounded-2xl bg-zinc-800/40 border border-white/5 animate-pulse" />
+              ))}
+            </div>
+          )}
         </motion.div>
       </div>
 

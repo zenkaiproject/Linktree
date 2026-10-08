@@ -17,11 +17,12 @@ import {
 } from 'lucide-react';
 
 export interface LinkItem {
-  id: string;
+  id: string | number;
   title: string;
   url: string;
   icon: string;
   color?: string;
+  logoUrl?: string | null;
 }
 
 export interface SocialItem {
@@ -31,6 +32,7 @@ export interface SocialItem {
   icon: any;
 }
 
+// Fallback shown if the links API is unreachable
 export const DEFAULT_LINKS: LinkItem[] = [
   {
     id: '1',
@@ -72,7 +74,7 @@ export const DEFAULT_LINKS: LinkItem[] = [
     title: 'TikTok',
     url: 'https://tiktok.com/@zenkaitsu',
     icon: 'Music2',
-    color: 'bg-black-600'
+    color: 'bg-zinc-900'
   }
 ];
 
@@ -92,5 +94,9 @@ export const ICON_MAP: Record<string, any> = {
   MessageCircle,
   Instagram,
   ExternalLink,
-  Music2
+  Music2,
+  Github,
+  Twitter,
+  Linkedin,
+  Mail
 };
