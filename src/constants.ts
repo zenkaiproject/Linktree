@@ -32,50 +32,44 @@ export interface SocialItem {
 }
 
 export const DEFAULT_LINKS: LinkItem[] = [
+  
   {
     id: '1',
-    title: 'Portfolio',
-    url: 'https://tod-ai-pearl.vercel.app',
-    icon: 'Briefcase',
-    color: 'bg-indigo-600'
-  },
-  {
-    id: '2',
     title: 'Traktir Kopi',
     url: 'https://sociabuzz.com/zenkaitsu/tribe',
     icon: 'Coffee',
     color: 'bg-amber-600'
   },
   {
-    id: '3',
+    id: '2',
     title: 'WhatsApp',
     url: 'https://wa.me/6285183729186',
     icon: 'MessageCircle',
     color: 'bg-green-600'
   },
   {
-    id: '4',
+    id: '3',
     title: 'Instagram',
     url: 'https://instagram.com/zenkaiproject99',
     icon: 'Instagram',
     color: 'bg-pink-600'
   },
   {
-    id: '5',
+    id: '4',
     title: 'YouTube',
     url: 'https://youtube.com/@zenkaitsu',
     icon: 'Youtube',
     color: 'bg-red-600'
   },
   {
-    id: '6',
+    id: '5',
     title: 'TikTok',
     url: 'https://tiktok.com/@zenkaitsu',
     icon: 'Music2',
     color: 'bg-black'
   },
   {
-    id: '7',
+    id: '6',
     title: 'Download Aux Labs',
     url: '/AUX-Lab-0.3.6.apk',
     icon: 'AuxLab',
